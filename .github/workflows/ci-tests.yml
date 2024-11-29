@@ -1,0 +1,27 @@
+name: CI - Java Unit Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Java environment
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17' # Use the Java version required for your project
+
+      # Build the project and run tests
+      - name: Build and Test
+        run: |
+          ./gradlew build test || ./mvnw clean verify
