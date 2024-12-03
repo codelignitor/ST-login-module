@@ -19,9 +19,8 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17' # Use the Java version required for your project
+          java-version: '17'
 
-      # Build the project and run tests
-      - name: Build and Test
-        run: |
-          ./gradlew build test || ./mvnw clean verify
+      # Build the project and run tests with Maven
+      - name: Build and Test with Maven
+        run: mvn clean verify
