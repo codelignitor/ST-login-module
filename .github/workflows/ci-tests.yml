@@ -1,26 +1,36 @@
 name: CI - Java Unit Tests
 
 on:
+  push:
+    branches:
+      - main
+      - master
   pull_request:
     branches:
       - main
+      - master
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
-
+    
     steps:
-      # Checkout the repository
-      - name: Checkout code
+      # Step 1: Check out the repository code
+      - name: Clone repository
         uses: actions/checkout@v3
 
-      # Set up Java environment
-      - name: Set up JDK
+      # Step 2: Set up Java environment
+      - name: Configure Java
         uses: actions/setup-java@v3
         with:
+          java-version: '11'
           distribution: 'temurin'
-          java-version: '17'
+          cache: maven
 
-      # Build the project and run tests with Maven
-      - name: Build and Test with Maven
-        run: mvn clean verify
+      # Step 3: Build the project
+      - name: Maven Build
+        run: mvn verify --batch-mode
+
+      # Step 4: Execute unit tests
+      - name: Execute Tests
+        run: mvn test --batch-mode
